@@ -9,4 +9,4 @@ logger = Logger(
 
 
 if __name__ == '__main__':
-    logger.info('eee')
+    logger.notice('test')

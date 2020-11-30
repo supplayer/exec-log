@@ -129,12 +129,37 @@ class _SendLog(_Logger):
         """
         self._log(level, None, False, self._options, f'✉️️ → {msg}', args, kwargs)  # noqa
 
-    def print(self, msg, level='INFO', *args, **kwargs):
+    def printout(self, msg, level='INFO', *args, **kwargs):
         t_logger = _SendLog(
             core=_Core(), exception=None, depth=0, record=False,
             lazy=False, colors=True, raw=False, capture=True, patcher=None, extra={}, **kwargs)
         t_logger.add(_sys.stderr)
         t_logger._log(level, None, False, self._options, f'✉️️ → {msg}', args, kwargs)
+
+    def app(self, msg: str):
+        """
+        msg send to app
+        """
+        if self.kw_args['receiver'] == 'slack':
+            self.params = {
+                'channel': self.kw_args['channel'],
+                'webhook_url': self.kw_args['webhook_url']}
+        elif self.kw_args['receiver'] == 'telegram':
+            cha_id = notifiers.get_notifier(
+                self.kw_args['receiver']
+            ).updates(self.kw_args['token'])[0]['message']['from']['id']
+            self.params = {
+                'token': self.kw_args['token'],
+                'chat_id': cha_id}
+        notifier = notifiers.get_notifier(self.kw_args['receiver'])
+        notifier.notify(message=f'✉️️ → {msg}', **self.params)
+
+    def notice(self, msg: str, level='INFO', *args, **kwargs):
+        """
+        msg send to app and record log
+        """
+        self._log(level, None, False, self._options, f'✉️️ → {msg}', args, kwargs)  # noqa
+        self.app(msg)
 
     def byline(self, msg, level='INFO', sign=None, *args, **kwargs):
         """
@@ -161,31 +186,6 @@ class _SendLog(_Logger):
             self._log('INFO', None, False, self._options, targe_msg, args, kwargs)  # noqa
             return func(*args_, **kw)
         return wrapper
-
-    def app(self, msg: str):
-        """
-        msg send to app
-        """
-        if self.kw_args['receiver'] == 'slack':
-            self.params = {
-                'channel': self.kw_args['channel'],
-                'webhook_url': self.kw_args['webhook_url']}
-        elif self.kw_args['receiver'] == 'telegram':
-            cha_id = notifiers.get_notifier(
-                self.kw_args['receiver']
-            ).updates(self.kw_args['token'])[0]['message']['from']['id']
-            self.params = {
-                'token': self.kw_args['token'],
-                'chat_id': cha_id}
-        notifier = notifiers.get_notifier(self.kw_args['receiver'])
-        notifier.notify(message=f'✉️️ → {msg}', **self.params)
-
-    def notice(self, msg: str, level='INFO', *args, **kwargs):
-        """
-        msg send to app and record log
-        """
-        self._log(level, None, False, self._options, f'✉️️ → {msg}', args, kwargs)  # noqa
-        self.app(msg)
 
 
 class Logger(_SendLog):
