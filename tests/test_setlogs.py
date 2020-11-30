@@ -9,4 +9,4 @@ logger = Logger(
 
 
 if __name__ == '__main__':
-    logger.notice('test')
+    logger.printout('test')

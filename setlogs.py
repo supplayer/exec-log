@@ -130,6 +130,9 @@ class _SendLog(_Logger):
         self._log(level, None, False, self._options, f'✉️️ → {msg}', args, kwargs)  # noqa
 
     def printout(self, msg, level='INFO', *args, **kwargs):
+        """
+        msg only display on shell.
+        """
         t_logger = _SendLog(
             core=_Core(), exception=None, depth=0, record=False,
             lazy=False, colors=True, raw=False, capture=True, patcher=None, extra={}, **kwargs)
