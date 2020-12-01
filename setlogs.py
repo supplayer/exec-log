@@ -12,7 +12,6 @@ import atexit as _atexit
 import sys as _sys
 import notifiers
 import os
-import types
 
 
 def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=None):
@@ -84,7 +83,7 @@ class _SendLog(_Logger):
             'retention': '10 days',  # for loguru
             'enqueue': True,  # for loguru
             'level': 'INFO',  # for loguru
-            'channel': 'mozat',  # for notifiers
+            'channel': 'channel',  # for notifiers
             'token': None,  # for notifiers/Telegram
             'sentry': True,  # for debug close sentry
         }
