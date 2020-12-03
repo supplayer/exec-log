@@ -1,4 +1,4 @@
-from setlogs import Logger
+from configlog.setlogs import Logger
 
 
 logger = Logger(

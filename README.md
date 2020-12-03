@@ -15,7 +15,7 @@ pip install loguru-notification
 对loguru-notification进行配置，并输出日志信息。
 
 ```python
-from setlogs import Logger
+from configlog.setlogs import Logger
 
 logger = Logger(
     dsn='Your Sentry URL',  # Sentry dsn URL

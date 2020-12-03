@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="loguru-notification",
-    version="0.0.3",
+    version="0.0.4",
     author="RoyXing",
     author_email="x254724521@hotmail.com",
     description="Project logging printout",
