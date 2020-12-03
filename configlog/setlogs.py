@@ -31,6 +31,9 @@ def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=None):
 
 
 class CMRESHANDLER(CMRESHandler):
+    def __init__(self, type_on=True, **kwargs):
+        super(CMRESHANDLER, self).__init__(**kwargs)
+        self.type_on = type_on
 
     def flush(self):
         """fix CMRESHandler ElasticsearchDeprecationWarning for new version ES"""
@@ -50,11 +53,15 @@ class CMRESHANDLER(CMRESHandler):
                 actions = (
                     {
                         '_index': self._index_name_func.__func__(self.es_index_name),
-                        # '_type': self.es_doc_type,
+                        '_type': self.es_doc_type,
+                        '_source': log_record
+                    } if self.type_on else {
+                        '_index': self._index_name_func.__func__(self.es_index_name),
                         '_source': log_record
                     }
                     for log_record in logs_buffer
                 )
+                print(self._buffer)
                 eshelpers.bulk(
                     client=self.__get_es_client(),
                     actions=actions,
@@ -83,9 +90,11 @@ class _SendLog(_Logger):
             'retention': '10 days',  # for loguru
             'enqueue': True,  # for loguru
             'level': 'INFO',  # for loguru
-            'channel': 'channel',  # for notifiers
+            'channel': 'mozat',  # for notifiers
             'token': None,  # for notifiers/Telegram
-            'sentry': True,  # for debug close sentry
+            'sentry': True,  # for debug close sentry,
+            'es_index_name': "python_project_log",
+            'type_on': True,  # for new version ES is True, old version ES turn off
         }
         self.kw_args = {**kw_args, **kwargs_}  # merge dicts, if keyword value changed then update  # noqa
         self.params = None
@@ -212,14 +221,13 @@ class Logger(_SendLog):
         logger = _SendLog(**kwargs_)
         es_args = self.kw_args['es_host'].split(':')
         es_args = es_args if len(es_args) == 2 else [es_args[0], 9200]
-        # CMRESHandler.flush = CMRESHANDLER.flush
         es_handler = CMRESHANDLER(
+            type_on=self.kw_args['type_on'],
             hosts=[{'host': es_args[0], 'port': es_args[-1]}],
             auth_type=CMRESHandler.AuthType.NO_AUTH,
-            es_index_name="python_project_log",
+            es_index_name=self.kw_args['es_index_name'],
             es_additional_fields={'App_Name': self.kw_args['app_name'],
                                   'Environment': self.kw_args['env']},)  # noqa
-        # es_handler.flush = types.MethodType(flush, es_handler)
         # Default log record setting
         self.add(
             es_handler,
