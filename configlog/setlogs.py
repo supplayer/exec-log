@@ -1,12 +1,8 @@
 from loguru import _defaults
 from loguru._logger import Core as _Core
 from loguru._logger import Logger as _Logger
-from sentry_sdk.integrations.celery import CeleryIntegration
-from sentry_sdk.integrations.redis import RedisIntegration
-from sentry_sdk.integrations.tornado import TornadoIntegration
 from cmreslogging.handlers import CMRESHandler
 from elasticsearch import helpers as eshelpers
-import sentry_sdk
 import functools
 import atexit as _atexit
 import sys as _sys
@@ -61,7 +57,6 @@ class CMRESHANDLER(CMRESHandler):
                     }
                     for log_record in logs_buffer
                 )
-                print(self._buffer)
                 eshelpers.bulk(
                     client=self.__get_es_client(),
                     actions=actions,
@@ -98,12 +93,6 @@ class _SendLog(_Logger):
         }
         self.kw_args = {**kw_args, **kwargs_}  # merge dicts, if keyword value changed then update  # noqa
         self.params = None
-        if self.kw_args['sentry']:
-            sentry_sdk.init(dsn=self.kw_args['dsn'],
-                            integrations=[CeleryIntegration(),
-                                          RedisIntegration(),
-                                          TornadoIntegration()
-                                          ] + self.kw_args['integrations'],)
 
     @staticmethod
     def __iteratorshow(msg, sign=None):
