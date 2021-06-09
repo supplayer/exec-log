@@ -11,7 +11,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/supplayer/loguru-notification",
-    packages=setuptools.find_packages(exclude=('tests', 'requirements.txt')),
+    packages=setuptools.find_packages(exclude=('tests', 'requirements.txt', '.gitignore')),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
