@@ -1,31 +1,32 @@
-# loguru-notification
+# exec-log
 
-loguru-notification 是一个日志输出项目，在loguru的基础集成日志输出到控制台、输出到Slack、并结合CMRESHandler把日记记录到ElasticSearch，
+exec-log 是一个日志输出项目，在loguru的基础集成日志输出到控制台、输出到Slack、并结合CMRESHandler把日记记录到ElasticSearch，
 更容易的对日志进行分析。
 
 ## Installation
 
-1.使用python包管理工具[pip](https://pypi.org/project/loguru-notification/) 进行安装。
+1.使用python包管理工具[pip](https://pypi.org/project/exec-log/) 进行安装。
 
 ```bash
-pip install loguru-notification
+pip install exec-log
 ```
 
 ## Usage
-对loguru-notification进行配置，并输出日志信息。
+对exec-log进行配置，并输出日志信息。
 
 ```python
-from configlog.setlogs import Logger
+from execlog.setlogs import Logger
 
 logger = Logger(
     webhook_url='Your Slack webhook URL',  # Slack webhook URL  # noqa
-    es_host='172.0.0.1:9200',  # log on ElasticSearch host ip and port
+    es_hosts=['172.0.0.1:9200'],  # log on ElasticSearch host ip and port
 )
 
 if __name__ == '__main__':
-    logger.printout('输出到控制台')
-    logger.msg('输出到控制台，并写入ElasticSearch')
-    logger.notice('输出到控制台和Slack，并写入ElasticSearch')
+    logger.echo('输出到控制台')
+    logger.info('输出到控制台，并写入ElasticSearch或本地')
+    logger.app("发送到Slack")
+    logger.notice('输出到控制台和Slack，并写入ElasticSearch或本地')
 ```
 ## Contributing
 欢迎使用，如果有好的优化方法也欢迎提交修改。
