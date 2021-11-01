@@ -5,7 +5,7 @@ exec-log 是一个日志输出项目，在loguru的基础集成日志输出到�
 
 ## Installation
 
-1.使用python包管理工具[pip](https://pypi.org/project/exec-log/) 进行安装。
+1.使用python包管理工具 [pip](https://pypi.org/project/exec-log/) 进行安装。
 
 ```bash
 pip install exec-log
