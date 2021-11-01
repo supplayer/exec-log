@@ -13,6 +13,7 @@ pip install exec-log
 
 ## Usage
 对exec-log进行配置，并输出日志信息。
+日志分为7个级别: TRACE(5) / DEBUG(10) / INFO(20) / SUCCESS(25) / WARNING(30) / ERROR(40) / CRITICAL(50)
 
 ```python
 from execlog.setlogs import Logger
@@ -24,9 +25,15 @@ logger = Logger(
 
 if __name__ == '__main__':
     logger.echo('输出到控制台')
-    logger.info('输出到控制台，并写入ElasticSearch或本地')
     logger.app("发送到Slack")
-    logger.notice('输出到控制台和Slack，并写入ElasticSearch或本地')
+    logger.trace('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.debug('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.info('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.success('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.warning('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.error('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.critical('输出到控制台，并写入ElasticSearch或本地', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
+    logger.notice('输出到控制台和Slack，并写入ElasticSearch或本地', level='INFO', note='这个字段只会在es显示，es字段名会变成extra.note, note可以随情况更改， 相应es字段名也会动态更改。')
 ```
 ## Contributing
 欢迎使用，如果有好的优化方法也欢迎提交修改。
