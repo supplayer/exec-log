@@ -47,7 +47,7 @@ class Logger(_Logger):
         self.__notifier[0].notify(raise_on_errors=True,
                                   message=f"Proj_Name: {self.setting.conf['app_name']}\n{msg}", **self.__notifier[1])
         if notice:
-            self.__logger._log('SUCCESS', None, False, self._options, f"msg sent: {msg}", args, kwargs)
+            self.__logger._log('SUCCESS', None, False, self._options, f"msg sent: \n{msg}", args, kwargs)
 
     def notice(self, msg, level='INFO', *args, **kwargs):
         """
