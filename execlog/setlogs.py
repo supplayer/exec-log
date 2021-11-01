@@ -44,7 +44,8 @@ class Logger(_Logger):
         """
         msg send to app
         """
-        self.__notifier[0].notify(raise_on_errors=True, message=str(msg), **self.__notifier[1])
+        self.__notifier[0].notify(raise_on_errors=True,
+                                  message=f"Proj_Name: {self.setting.conf['app_name']}\n{msg}", **self.__notifier[1])
 
     def notice(self, msg, level='INFO', *args, **kwargs):
         """
