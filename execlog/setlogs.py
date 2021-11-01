@@ -29,7 +29,7 @@ class Logger(_Logger):
         self.setting.conf.update(kwargs)
         self.__logger = self.__set_logger()
         self.__notifier = self.__app_notifier()
-        self.add(self.__es_handler or self.setting.conf_loguru['local_path'])
+        self.add(self.__es_handler or self.setting.conf_loguru['log_path'])
         if _defaults.LOGURU_AUTOINIT and _sys.stderr:
             self.add(_sys.stderr)
         _atexit.register(self.remove)

@@ -37,7 +37,7 @@ class Conf:
     conf = {}
     conf_loguru = ConfMap(
         conf,
-        local_path=f'{__proj_root}/site/logs/running_status.log',
+        log_path=f'{__proj_root}/site/logs/running_status.log',
         rotation='20 MB',
         retention='10 days',
         enqueue=True,
