@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="loguru-notification",
+    name="exec-log",
     author="Supplayer",
     author_email="x254724521@hotmail.com",
-    description="Project logging printout",
+    description="Project logging",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/supplayer/loguru-notification",
-    packages=setuptools.find_packages(exclude=('tests', 'requirements.txt', '.gitignore')),
+    url="https://github.com/supplayer/exec-log",
+    packages=setuptools.find_packages(include=('execlog',)),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
