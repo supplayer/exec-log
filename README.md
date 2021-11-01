@@ -21,7 +21,7 @@ from execlog.setlogs import Logger
 logger = Logger(
     webhook_url='Your Slack webhook URL',  # Slack webhook URL  # noqa
     es_hosts=['172.0.0.1:9200'],  # 记录日期 ElasticSearch host ip and port
-    # log_path=f'{proj_root}/site/logs/running_status.log' # 如果不用ElasticSearch可以自定义log保存路径
+    # log_path=f'{proj_root}/site/logs/running_status.log' # 如果不用ElasticSearch可以自定义log保存路径或使用默认路径
 )
 
 if __name__ == '__main__':
