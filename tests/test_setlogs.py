@@ -1,10 +1,9 @@
-from configlog.setlogs import Logger
+from execlog.setlogs import Logger
 
 
 logger = Logger(
     webhook_url='Slack webhook URL',  # Slack webhook URL  # noqa
-    es_host='log on ElasticSearch host ip and port',  # log on ElasticSearch host ip and port
-    type_on=False,
+    es_hosts=['172.0.0.1:9200'],  # log on ElasticSearch host ip and port
 )
 
 
