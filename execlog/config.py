@@ -47,7 +47,7 @@ class Conf:
         conf,
         receiver='slack',  # slack/telegram
         webhook_url=None,  # for Slack
-        channel='mozat',  # for Slack
+        channel='default',  # for Slack
         token=None,  # for notifiers/Telegram
     )
     conf_CMRESHandler = ConfMap(
