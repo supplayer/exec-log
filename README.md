@@ -27,14 +27,14 @@ logger = Logger(
 if __name__ == '__main__':
     logger.echo('输出到控制台')
     logger.app("发送到Slack")
-    logger.trace('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.debug('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.info('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.success('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.warning('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.error('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.critical('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
-    logger.notice('输出到控制台和Slack，并写入ElasticSearch或本地', level='INFO', note='这个参数只会在ES显示，ES会添加字段名为extra.note, note可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.trace('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.debug('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.info('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.success('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.warning('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.error('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.critical('输出到控制台，并写入ElasticSearch或本地', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
+    logger.notice('输出到控制台和Slack，并写入ElasticSearch或本地', level='INFO', note='这个参数只会在ES显示，ES会添加字段名为extra.note, <<note参数名>>可以随情况更改，<<也可以不设置>>， 相应ES字段名也会动态更改。')
 ```
 ## Contributing
 欢迎使用，如果有好的优化方法也欢迎提交修改。
