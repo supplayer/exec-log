@@ -37,7 +37,7 @@ class Conf:
     conf = {}
     conf_loguru = ConfMap(
         conf,
-        local_path=f'{__proj_root}/site/logs/running_status.log',
+        log_path=f'{__proj_root}/site/logs/running_status.log',
         rotation='20 MB',
         retention='10 days',
         enqueue=True,
@@ -47,7 +47,7 @@ class Conf:
         conf,
         receiver='slack',  # slack/telegram
         webhook_url=None,  # for Slack
-        channel='mozat',  # for Slack
+        channel='default',  # for Slack
         token=None,  # for notifiers/Telegram
     )
     conf_CMRESHandler = ConfMap(

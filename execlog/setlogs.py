@@ -29,7 +29,7 @@ class Logger(_Logger):
         self.setting.conf.update(kwargs)
         self.__logger = self.__set_logger()
         self.__notifier = self.__app_notifier()
-        self.add(self.__es_handler or self.setting.conf_loguru['local_path'])
+        self.add(self.__es_handler or self.setting.conf_loguru['log_path'])
         if _defaults.LOGURU_AUTOINIT and _sys.stderr:
             self.add(_sys.stderr)
         _atexit.register(self.remove)
@@ -40,19 +40,21 @@ class Logger(_Logger):
         """
         self.__logger._log(level, None, False, self._options, msg, args, kwargs)
 
-    def app(self, msg):
+    def app(self, msg, notice=True, *args, **kwargs):
         """
         msg send to app
         """
         self.__notifier[0].notify(raise_on_errors=True,
                                   message=f"Proj_Name: {self.setting.conf['app_name']}\n{msg}", **self.__notifier[1])
+        if notice:
+            self.__logger._log('SUCCESS', None, False, self._options, f"msg sent: \n{msg}", args, kwargs)
 
     def notice(self, msg, level='INFO', *args, **kwargs):
         """
         msg send to app and record log
         """
         self._log(level, None, False, self._options, msg, args, kwargs)
-        self.app(msg)
+        self.app(msg, notice=False)
 
     def byline(self, msg, level='INFO', sign=None, log_type='echo', *args, **kwargs):
         """
