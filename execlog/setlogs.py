@@ -140,6 +140,7 @@ class Logger(_Logger):
         return CMRESHandler(
             hosts=[(lambda i: {'host': i[0], 'port': i[-1]})(i.split(':')) for i in self.setting.conf['es_hosts']],
             es_index_name=self.setting.conf['es_index_name'],
+            es_doc_type=None,
             es_additional_fields={**{'App_Name': self.setting.conf['app_name'],
                                      'Environment': self.setting.conf['env']},
                                   **self.setting.conf['es_additional_fields']}
