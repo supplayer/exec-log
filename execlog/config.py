@@ -55,6 +55,7 @@ class Conf:
         es_hosts=None,
         es_exclude_fields=['msg'],
         es_index_name=f"python_project_log",
+        es_doc_type=None,
         es_additional_fields={},
         app_name=__proj_root.split('/')[-1],
         env=_sys.argv[-1] if '/' not in _sys.argv[-1] else 'dev',
