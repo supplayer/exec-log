@@ -53,6 +53,7 @@ class Conf:
     conf_CMRESHandler = ConfMap(
         conf,
         es_hosts=None,
+        es_exclude_fields=['msg'],
         es_index_name=f"python_project_log",
         es_additional_fields={},
         app_name=__proj_root.split('/')[-1],

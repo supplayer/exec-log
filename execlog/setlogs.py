@@ -4,10 +4,59 @@ from loguru import _defaults
 from loguru._logger import Core as _Core
 from loguru._logger import Logger as _Logger
 from cmreslogging.handlers import CMRESHandler
+from threading import Timer
 import functools
 import atexit as _atexit
 import sys as _sys
 import notifiers
+import datetime
+
+
+class CmresHandler(CMRESHandler):
+    def __init__(self, es_exclude_fields: list, **kwargs):
+        super().__init__(**kwargs)
+        self.exclude = es_exclude_fields + ['msecs', 'relativeCreated', 'levelno', 'created']
+
+    @staticmethod
+    def __get_es_datetime_str(timestamp):
+        """ Returns elasticsearch utc formatted time for an epoch timestamp
+
+        :param timestamp: epoch, including milliseconds
+        :return: A string valid for elasticsearch time record
+        """
+        current_date = datetime.datetime.utcfromtimestamp(timestamp)
+        return "{0!s}.{1:03d}Z".format(current_date.strftime('%Y-%m-%dT%H:%M:%S'), int(current_date.microsecond / 1000))
+
+    def emit(self, record):
+        """ Emit overrides the abstract logging.Handler logRecord emit method
+
+        Format and records the log
+
+        :param record: A class of type ```logging.LogRecord```
+        :return: None
+        """
+        self.format(record)
+
+        rec = self.es_additional_fields.copy()
+        for key, value in record.__dict__.items():
+            if key not in self.exclude:
+                if key == "args":
+                    value = tuple(str(arg) for arg in value)
+                rec[key] = "" if value is None else value
+        rec[self.default_timestamp_field_name] = self.__get_es_datetime_str(record.created)
+        with self._buffer_lock:
+            self._buffer.append(rec)
+
+        if len(self._buffer) >= self.buffer_size:
+            self.flush()
+        else:
+            self.__schedule_flush()
+
+    def __schedule_flush(self):
+        if self._timer is None:
+            self._timer = Timer(self.flush_frequency_in_sec, self.flush)
+            self._timer.setDaemon(True)
+            self._timer.start()
 
 
 class Logger(_Logger):
@@ -137,9 +186,11 @@ class Logger(_Logger):
 
     @property
     def __es_handler(self):
-        return CMRESHandler(
+        return CmresHandler(
             hosts=[(lambda i: {'host': i[0], 'port': i[-1]})(i.split(':')) for i in self.setting.conf['es_hosts']],
+            es_exclude_fields=self.setting.conf['es_exclude_fields'],
             es_index_name=self.setting.conf['es_index_name'],
+            es_doc_type=None,
             es_additional_fields={**{'App_Name': self.setting.conf['app_name'],
                                      'Environment': self.setting.conf['env']},
                                   **self.setting.conf['es_additional_fields']}
