@@ -17,6 +17,7 @@ def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=''):
         if any(os.path.isdir(os.path.join(path, d)) for d in dirs):
             return path
         prev, path = path, os.path.abspath(os.path.join(path, os.pardir))
+    return default
 
 
 class ConfMap:
