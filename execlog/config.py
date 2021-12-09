@@ -2,7 +2,7 @@ import sys as _sys
 import os
 
 
-def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=None):
+def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=''):
     """
     get project root path.
     :param path: scripts path
@@ -10,12 +10,13 @@ def find_vcs_root(path=os.getcwd(), dirs=(".git",), default=None):
     :param default: if set default then save to the default absolute path
     :return: path
     """
+    if default:
+        return default
     prev, path = None, os.path.abspath(path)
     while prev != path:
         if any(os.path.isdir(os.path.join(path, d)) for d in dirs):
             return path
         prev, path = path, os.path.abspath(os.path.join(path, os.pardir))
-    return default
 
 
 class ConfMap:
