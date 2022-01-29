@@ -34,9 +34,15 @@ class ConfMap:
         return self.__conf_app
 
 
+class ConfDict(dict):
+    def update_not_none(self, **kwargs):
+        kwargs = {k: v for k, v in kwargs.items() if v}
+        self.update(kwargs)
+
+
 class Conf:
     __proj_root = find_vcs_root()
-    conf = {}
+    conf = ConfDict()
     conf_loguru = ConfMap(
         conf,
         log_path=f'{__proj_root}/site/logs/running_status.log',
