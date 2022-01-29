@@ -60,8 +60,9 @@ class CmresHandler(CMRESHandler):
 
 
 class Logger(_Logger):
-    def __init__(self, core=_Core(), exception=None, depth=0, record=False,
-                 lazy=False, colors=True, raw=False, capture=True, patcher=None, extra=None, **kwargs):
+    def __init__(self, webhook_url=None, es_hosts=None, es_doc_type=None, log_path=None, core=_Core(),
+                 exception=None, depth=0, record=False, lazy=False, colors=True, raw=False,
+                 capture=True, patcher=None, extra=None, **kwargs):
         super(Logger, self).__init__(core, exception, depth, record, lazy, colors, raw, capture, patcher, extra or {})
         """
         Args Description
@@ -72,10 +73,12 @@ class Logger(_Logger):
         retention: '10 days', for loguru
         enqueue: True, for loguruno
         level: 'INFO', for loguru
-        channel: 'mozat', for notifiers
+        channel: 'default', for notifiers
         """
         self.setting = Conf()
-        self.setting.conf.update(kwargs)
+        self.setting.conf.update(**kwargs)
+        self.setting.conf.update_not_none(
+            webhook_url=webhook_url, es_hosts=es_hosts, log_path=log_path, es_doc_type=es_doc_type)
         self.__logger = self.__set_logger()
         self.__notifier = self.__app_notifier()
         self.add(self.__es_handler or self.setting.conf_loguru['log_path'])
